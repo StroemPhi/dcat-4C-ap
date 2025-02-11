@@ -1,0 +1,14 @@
+# Example Dataset object for a Catalogue
+---
+description:
+  - "my Catalogue"
+title:
+  - "my awesome Catalogue"
+publisher:
+  name: "XXX Press"
+has_part: 
+  - description: "my other Catalogue"
+    title:
+      - "my awesome other Catalogue"
+    publisher:
+      name: "XXX Press"

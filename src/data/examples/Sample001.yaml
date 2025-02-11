@@ -1,0 +1,11 @@
+# Example Dataset object for a ChemicalSample
+---
+rdf_type:
+  id: CHEBI:59999
+  title: "Chemical Substance"
+id: "https://doi.org/10.14272/KVOIVNBYNQXCNY-BOCHJOTCSA-N.1"
+title: "CRS-37013"
+other_identifier:
+  - notation: https://www.chemotion-repository.net/pid/37013
+has_part:
+  - Molecule001

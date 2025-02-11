@@ -1,0 +1,12 @@
+# Example Dataset object for a ChemicalEntity
+---
+id: ex:Molecule001
+inchikey:
+  value: KVOIVNBYNQXCNY-BOCHJOTCSA-N
+inchi:
+  value: " InChI=1S/2C18H15P.C12H8N3S.Cu/c2*1-4-10-16(11-5-1)19(17-12-6-2-7-13-17)18-14-8-3-9-15-18;1-2-6-11-10(5-1)15-12(16-11)14-8-9-4-3-7-13-9;/h2*1-15H;1-8H;/q;;-1;+1/b;;14-8+;"
+smiles:
+  value: "c1ccc(cc1)P(c1ccccc1)c1ccccc1.c1ccc(cc1)P(c1ccccc1)c1ccccc1.[Cu]n1cccc1/C=N/c1nc2c(s1)cccc2"
+iupac_formula:
+  value: "C48H38CuN3P2S"
+#described_by: https://doi.org/10.14272/KVOIVNBYNQXCNY-BOCHJOTCSA-N/CHMO0000595

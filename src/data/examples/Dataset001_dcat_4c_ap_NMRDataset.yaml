@@ -10,6 +10,14 @@ description:
 theme:
   - preferred_label: 
     - "Science and technology"
+describes_entity:
+  # `linkml-validate` will fail here if the 'id' key is not provided, since it is stricter than pytest and 
+  # linkml-convert, see also: https://github.com/orgs/linkml/discussions/2532
+  # These values can be inferred: was_generated_by.evaluated_entity.id & was_generated_by.evaluated_entity.has_part.id
+  # Attempts to infer them via the LinkML schema using 'equals_expression' have so far failed,
+  # it is thus currently considered a better approach to infer these using the Python representation
+  - https://doi.org/10.14272/KVOIVNBYNQXCNY-BOCHJOTCSA-N.1
+  - Molecule001
 was_generated_by:
   - rdf_type:
       id: CHMO:0000595
@@ -22,12 +30,12 @@ was_generated_by:
         title: "CRS-37013"
         other_identifier:
           - notation: https://www.chemotion-repository.net/pid/37013
-        has_part:
-          - id: ex:Molecule001
+        composed_of:
+          - id: Molecule001
             inchikey:
               value: KVOIVNBYNQXCNY-BOCHJOTCSA-N
             inchi:
-              value: " InChI=1S/2C18H15P.C12H8N3S.Cu/c2*1-4-10-16(11-5-1)19(17-12-6-2-7-13-17)18-14-8-3-9-15-18;1-2-6-11-10(5-1)15-12(16-11)14-8-9-4-3-7-13-9;/h2*1-15H;1-8H;/q;;-1;+1/b;;14-8+;"
+              value: "InChI=1S/2C18H15P.C12H8N3S.Cu/c2*1-4-10-16(11-5-1)19(17-12-6-2-7-13-17)18-14-8-3-9-15-18;1-2-6-11-10(5-1)15-12(16-11)14-8-9-4-3-7-13-9;/h2*1-15H;1-8H;/q;;-1;+1/b;;14-8+;"
             smiles:
               value: "c1ccc(cc1)P(c1ccccc1)c1ccccc1.c1ccc(cc1)P(c1ccccc1)c1ccccc1.[Cu]n1cccc1/C=N/c1nc2c(s1)cccc2"
             iupac_formula:
