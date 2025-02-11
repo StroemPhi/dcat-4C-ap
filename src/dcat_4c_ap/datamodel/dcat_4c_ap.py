@@ -1,5 +1,5 @@
 # Auto generated from dcat_4c_ap.yaml by pythongen.py version: 0.0.1
-# Generation date: 2025-01-30T21:26:12
+# Generation date: 2025-02-11T14:57:34
 # Schema: dcat-4C-ap
 #
 # id: https://stroemphi.github.io/dcat-4C-ap/dcat_4c_ap
@@ -145,11 +145,11 @@ class EntityOfInterestId(URIorCURIE):
     pass
 
 
-class ChemicalSubstanceId(EntityOfInterestId):
+class ChemicalSampleId(EntityOfInterestId):
     pass
 
 
-class ChemicalSampleId(ChemicalSubstanceId):
+class ChemicalEntityId(EntityOfInterestId):
     pass
 
 
@@ -169,42 +169,16 @@ class NFDIDatasetId(URIorCURIE):
     pass
 
 
-class NMRDatasetId(NFDIDatasetId):
+class ChemicalAnalysisDatasetId(NFDIDatasetId):
     pass
 
 
-@dataclass(repr=False)
-class ChemicalEntity(YAMLRoot):
-    """
-    Any constitutionally or isotopically distinct atom, molecule, ion, ion pair, radical, radical ion, complex,
-    conformer etc., identifiable as a separately distinguishable entity.
-    """
-    _inherited_slots: ClassVar[List[str]] = []
+class NMRDatasetId(ChemicalAnalysisDatasetId):
+    pass
 
-    class_class_uri: ClassVar[URIRef] = CHEBI["23367"]
-    class_class_curie: ClassVar[str] = "CHEBI:23367"
-    class_name: ClassVar[str] = "ChemicalEntity"
-    class_model_uri: ClassVar[URIRef] = NFDI4C.ChemicalEntity
 
-    inchi: Optional[Union[dict, "InChi"]] = None
-    inchikey: Optional[Union[dict, "InChIKey"]] = None
-    smiles: Optional[Union[dict, "SMILES"]] = None
-    iupac_formula: Optional[Union[dict, "IUPACChemicalFormula"]] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.inchi is not None and not isinstance(self.inchi, InChi):
-            self.inchi = InChi(**as_dict(self.inchi))
-
-        if self.inchikey is not None and not isinstance(self.inchikey, InChIKey):
-            self.inchikey = InChIKey(**as_dict(self.inchikey))
-
-        if self.smiles is not None and not isinstance(self.smiles, SMILES):
-            self.smiles = SMILES(**as_dict(self.smiles))
-
-        if self.iupac_formula is not None and not isinstance(self.iupac_formula, IUPACChemicalFormula):
-            self.iupac_formula = IUPACChemicalFormula(**as_dict(self.iupac_formula))
-
-        super().__post_init__(**kwargs)
+class MSDatasetId(NFDIDatasetId):
+    pass
 
 
 @dataclass(repr=False)
@@ -282,7 +256,8 @@ class EntityOfInterest(YAMLRoot):
     other_identifier: Optional[Union[Union[dict, "Identifier"], List[Union[dict, "Identifier"]]]] = empty_list()
     has_qualitative_attribute: Optional[Union[Union[dict, "QualitativeAttribute"], List[Union[dict, "QualitativeAttribute"]]]] = empty_list()
     has_quantitative_attribute: Optional[Union[Union[dict, "QuantitativeAttribute"], List[Union[dict, "QuantitativeAttribute"]]]] = empty_list()
-    has_part: Optional[str] = None
+    has_part: Optional[Union[Dict[Union[str, EntityOfInterestId], Union[dict, "EntityOfInterest"]], List[Union[dict, "EntityOfInterest"]]]] = empty_dict()
+    described_by: Optional[Union[Dict[Union[str, NFDIDatasetId], Union[dict, "NFDIDataset"]], List[Union[dict, "NFDIDataset"]]]] = empty_dict()
     type: Optional[Union[dict, DefinedTerm]] = None
     rdf_type: Optional[Union[dict, DefinedTerm]] = None
 
@@ -310,8 +285,9 @@ class EntityOfInterest(YAMLRoot):
             self.has_quantitative_attribute = [self.has_quantitative_attribute] if self.has_quantitative_attribute is not None else []
         self.has_quantitative_attribute = [v if isinstance(v, QuantitativeAttribute) else QuantitativeAttribute(**as_dict(v)) for v in self.has_quantitative_attribute]
 
-        if self.has_part is not None and not isinstance(self.has_part, str):
-            self.has_part = str(self.has_part)
+        self._normalize_inlined_as_list(slot_name="has_part", slot_type=EntityOfInterest, key_name="id", keyed=True)
+
+        self._normalize_inlined_as_list(slot_name="described_by", slot_type=NFDIDataset, key_name="id", keyed=True)
 
         if self.type is not None and not isinstance(self.type, DefinedTerm):
             self.type = DefinedTerm(**as_dict(self.type))
@@ -323,54 +299,71 @@ class EntityOfInterest(YAMLRoot):
 
 
 @dataclass(repr=False)
-class ChemicalSubstance(EntityOfInterest):
+class ChemicalSample(EntityOfInterest):
     """
     A portion of matter of constant composition, composed of molecular entities of the same type or of different types
     that is being evaluated in a scientific process.
     """
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = PROV["Entity"]
-    class_class_curie: ClassVar[str] = "prov:Entity"
-    class_name: ClassVar[str] = "ChemicalSubstance"
-    class_model_uri: ClassVar[URIRef] = NFDI4C.ChemicalSubstance
-
-    id: Union[str, ChemicalSubstanceId] = None
-    has_role: Optional[str] = None
-    composed_of: Optional[Union[Union[dict, ChemicalEntity], List[Union[dict, ChemicalEntity]]]] = empty_list()
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self._is_empty(self.id):
-            self.MissingRequiredField("id")
-        if not isinstance(self.id, ChemicalSubstanceId):
-            self.id = ChemicalSubstanceId(self.id)
-
-        if self.has_role is not None and not isinstance(self.has_role, str):
-            self.has_role = str(self.has_role)
-
-        if not isinstance(self.composed_of, list):
-            self.composed_of = [self.composed_of] if self.composed_of is not None else []
-        self.composed_of = [v if isinstance(v, ChemicalEntity) else ChemicalEntity(**as_dict(v)) for v in self.composed_of]
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass(repr=False)
-class ChemicalSample(ChemicalSubstance):
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = NFDI4C["ChemicalSample"]
-    class_class_curie: ClassVar[str] = "nfdi4c:ChemicalSample"
+    class_class_uri: ClassVar[URIRef] = CHEBI["59999"]
+    class_class_curie: ClassVar[str] = "CHEBI:59999"
     class_name: ClassVar[str] = "ChemicalSample"
     class_model_uri: ClassVar[URIRef] = NFDI4C.ChemicalSample
 
     id: Union[str, ChemicalSampleId] = None
+    composed_of: Optional[Union[Dict[Union[str, ChemicalEntityId], Union[dict, "ChemicalEntity"]], List[Union[dict, "ChemicalEntity"]]]] = empty_dict()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
             self.MissingRequiredField("id")
         if not isinstance(self.id, ChemicalSampleId):
             self.id = ChemicalSampleId(self.id)
+
+        self._normalize_inlined_as_list(slot_name="composed_of", slot_type=ChemicalEntity, key_name="id", keyed=True)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass(repr=False)
+class ChemicalEntity(EntityOfInterest):
+    """
+    Any constitutionally or isotopically distinct atom, molecule, ion, ion pair, radical, radical ion, complex,
+    conformer etc., identifiable as a separately distinguishable entity.
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = CHEBI["23367"]
+    class_class_curie: ClassVar[str] = "CHEBI:23367"
+    class_name: ClassVar[str] = "ChemicalEntity"
+    class_model_uri: ClassVar[URIRef] = NFDI4C.ChemicalEntity
+
+    id: Union[str, ChemicalEntityId] = None
+    part_of: Optional[Union[Dict[Union[str, ChemicalSampleId], Union[dict, ChemicalSample]], List[Union[dict, ChemicalSample]]]] = empty_dict()
+    inchi: Optional[Union[dict, "InChi"]] = None
+    inchikey: Optional[Union[dict, "InChIKey"]] = None
+    smiles: Optional[Union[dict, "SMILES"]] = None
+    iupac_formula: Optional[Union[dict, "IUPACChemicalFormula"]] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, ChemicalEntityId):
+            self.id = ChemicalEntityId(self.id)
+
+        self._normalize_inlined_as_list(slot_name="part_of", slot_type=ChemicalSample, key_name="id", keyed=True)
+
+        if self.inchi is not None and not isinstance(self.inchi, InChi):
+            self.inchi = InChi(**as_dict(self.inchi))
+
+        if self.inchikey is not None and not isinstance(self.inchikey, InChIKey):
+            self.inchikey = InChIKey(**as_dict(self.inchikey))
+
+        if self.smiles is not None and not isinstance(self.smiles, SMILES):
+            self.smiles = SMILES(**as_dict(self.smiles))
+
+        if self.iupac_formula is not None and not isinstance(self.iupac_formula, IUPACChemicalFormula):
+            self.iupac_formula = IUPACChemicalFormula(**as_dict(self.iupac_formula))
 
         super().__post_init__(**kwargs)
 
@@ -710,8 +703,8 @@ class ResearchActivity(Activity):
     title: Optional[str] = None
     description: Optional[str] = None
     other_identifier: Optional[Union[Union[dict, "Identifier"], List[Union[dict, "Identifier"]]]] = empty_list()
-    evaluated_entity: Optional[Union[dict, EntityOfInterest]] = None
-    evaluated_activity: Optional[Union[dict, "ActivityOfInterest"]] = None
+    evaluated_entity: Optional[Union[Dict[Union[str, EntityOfInterestId], Union[dict, EntityOfInterest]], List[Union[dict, EntityOfInterest]]]] = empty_dict()
+    evaluated_activity: Optional[Union[Dict[Union[str, ActivityOfInterestId], Union[dict, "ActivityOfInterest"]], List[Union[dict, "ActivityOfInterest"]]]] = empty_dict()
     used_tool: Optional[Union[Union[dict, Tool], List[Union[dict, Tool]]]] = empty_list()
     realized_plan: Optional[Union[dict, Plan]] = None
     has_part: Optional[Union[dict, Activity]] = None
@@ -730,11 +723,9 @@ class ResearchActivity(Activity):
             self.other_identifier = [self.other_identifier] if self.other_identifier is not None else []
         self.other_identifier = [v if isinstance(v, Identifier) else Identifier(**as_dict(v)) for v in self.other_identifier]
 
-        if self.evaluated_entity is not None and not isinstance(self.evaluated_entity, EntityOfInterest):
-            self.evaluated_entity = EntityOfInterest(**as_dict(self.evaluated_entity))
+        self._normalize_inlined_as_list(slot_name="evaluated_entity", slot_type=EntityOfInterest, key_name="id", keyed=True)
 
-        if self.evaluated_activity is not None and not isinstance(self.evaluated_activity, ActivityOfInterest):
-            self.evaluated_activity = ActivityOfInterest(**as_dict(self.evaluated_activity))
+        self._normalize_inlined_as_list(slot_name="evaluated_activity", slot_type=ActivityOfInterest, key_name="id", keyed=True)
 
         if not isinstance(self.used_tool, list):
             self.used_tool = [self.used_tool] if self.used_tool is not None else []
@@ -758,8 +749,20 @@ class ResearchActivity(Activity):
         super().__post_init__(**kwargs)
 
 
+class ChemicalAnalysis(ResearchActivity):
+    """
+    An assay in which a chemical sample is being analysed according to some
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OBI["0000070"]
+    class_class_curie: ClassVar[str] = "OBI:0000070"
+    class_name: ClassVar[str] = "ChemicalAnalysis"
+    class_model_uri: ClassVar[URIRef] = NFDI4C.ChemicalAnalysis
+
+
 @dataclass(repr=False)
-class NMRSpectroscopy(ResearchActivity):
+class NMRSpectroscopy(ChemicalAnalysis):
     """
     Spectroscopy where the energy states of spin-active nuclei placed in a static magnetic field are interrogated by
     inducing transitions between the states via radio frequency irradiation. Each experiment consists of a sequence of
@@ -767,17 +770,41 @@ class NMRSpectroscopy(ResearchActivity):
     """
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = NFDI4C["NMRSpectroscopy"]
-    class_class_curie: ClassVar[str] = "nfdi4c:NMRSpectroscopy"
+    class_class_uri: ClassVar[URIRef] = CHMO["0000613"]
+    class_class_curie: ClassVar[str] = "CHMO:0000613"
     class_name: ClassVar[str] = "NMRSpectroscopy"
     class_model_uri: ClassVar[URIRef] = NFDI4C.NMRSpectroscopy
 
-    evaluated_entity: Optional[Union[dict, ChemicalSample]] = None
+    evaluated_entity: Optional[Union[Dict[Union[str, ChemicalSampleId], Union[dict, ChemicalSample]], List[Union[dict, ChemicalSample]]]] = empty_dict()
     rdf_type: Optional[Union[dict, DefinedTerm]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.evaluated_entity is not None and not isinstance(self.evaluated_entity, ChemicalSample):
-            self.evaluated_entity = ChemicalSample(**as_dict(self.evaluated_entity))
+        self._normalize_inlined_as_list(slot_name="evaluated_entity", slot_type=ChemicalSample, key_name="id", keyed=True)
+
+        if self.rdf_type is not None and not isinstance(self.rdf_type, DefinedTerm):
+            self.rdf_type = DefinedTerm(**as_dict(self.rdf_type))
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass(repr=False)
+class MSSpectroscopy(ChemicalAnalysis):
+    """
+    Spectrometry where the sample is converted into gaseous ions which are characterised by their mass-to-charge ratio
+    and relative abundance.
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = CHMO["0000470"]
+    class_class_curie: ClassVar[str] = "CHMO:0000470"
+    class_name: ClassVar[str] = "MSSpectroscopy"
+    class_model_uri: ClassVar[URIRef] = NFDI4C.MSSpectroscopy
+
+    evaluated_entity: Optional[Union[Dict[Union[str, ChemicalSampleId], Union[dict, ChemicalSample]], List[Union[dict, ChemicalSample]]]] = empty_dict()
+    rdf_type: Optional[Union[dict, DefinedTerm]] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        self._normalize_inlined_as_list(slot_name="evaluated_entity", slot_type=ChemicalSample, key_name="id", keyed=True)
 
         if self.rdf_type is not None and not isinstance(self.rdf_type, DefinedTerm):
             self.rdf_type = DefinedTerm(**as_dict(self.rdf_type))
@@ -803,7 +830,8 @@ class ActivityOfInterest(Activity):
     other_identifier: Optional[Union[Union[dict, "Identifier"], List[Union[dict, "Identifier"]]]] = empty_list()
     has_qualitative_attribute: Optional[Union[Union[dict, QualitativeAttribute], List[Union[dict, QualitativeAttribute]]]] = empty_list()
     has_quantitative_attribute: Optional[Union[Union[dict, QuantitativeAttribute], List[Union[dict, QuantitativeAttribute]]]] = empty_list()
-    has_part: Optional[str] = None
+    has_part: Optional[Union[Dict[Union[str, ActivityOfInterestId], Union[dict, "ActivityOfInterest"]], List[Union[dict, "ActivityOfInterest"]]]] = empty_dict()
+    described_by: Optional[Union[Dict[Union[str, NFDIDatasetId], Union[dict, "NFDIDataset"]], List[Union[dict, "NFDIDataset"]]]] = empty_dict()
     type: Optional[Union[dict, DefinedTerm]] = None
     rdf_type: Optional[Union[dict, DefinedTerm]] = None
 
@@ -831,8 +859,9 @@ class ActivityOfInterest(Activity):
             self.has_quantitative_attribute = [self.has_quantitative_attribute] if self.has_quantitative_attribute is not None else []
         self.has_quantitative_attribute = [v if isinstance(v, QuantitativeAttribute) else QuantitativeAttribute(**as_dict(v)) for v in self.has_quantitative_attribute]
 
-        if self.has_part is not None and not isinstance(self.has_part, str):
-            self.has_part = str(self.has_part)
+        self._normalize_inlined_as_list(slot_name="has_part", slot_type=ActivityOfInterest, key_name="id", keyed=True)
+
+        self._normalize_inlined_as_list(slot_name="described_by", slot_type=NFDIDataset, key_name="id", keyed=True)
 
         if self.type is not None and not isinstance(self.type, DefinedTerm):
             self.type = DefinedTerm(**as_dict(self.type))
@@ -1387,7 +1416,9 @@ class NFDIDataset(Dataset):
     id: Union[str, NFDIDatasetId] = None
     description: Union[str, List[str]] = None
     title: Union[str, List[str]] = None
-    was_generated_by: Union[Union[dict, ResearchActivity], List[Union[dict, ResearchActivity]]] = None
+    describes_entity: Optional[Union[Dict[Union[str, EntityOfInterestId], Union[dict, EntityOfInterest]], List[Union[dict, EntityOfInterest]]]] = empty_dict()
+    describes_activity: Optional[Union[Dict[Union[str, ActivityOfInterestId], Union[dict, ActivityOfInterest]], List[Union[dict, ActivityOfInterest]]]] = empty_dict()
+    was_generated_by: Optional[Union[Union[dict, ResearchActivity], List[Union[dict, ResearchActivity]]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
@@ -1395,8 +1426,10 @@ class NFDIDataset(Dataset):
         if not isinstance(self.id, NFDIDatasetId):
             self.id = NFDIDatasetId(self.id)
 
-        if self._is_empty(self.was_generated_by):
-            self.MissingRequiredField("was_generated_by")
+        self._normalize_inlined_as_list(slot_name="describes_entity", slot_type=EntityOfInterest, key_name="id", keyed=True)
+
+        self._normalize_inlined_as_list(slot_name="describes_activity", slot_type=ActivityOfInterest, key_name="id", keyed=True)
+
         if not isinstance(self.was_generated_by, list):
             self.was_generated_by = [self.was_generated_by] if self.was_generated_by is not None else []
         self.was_generated_by = [v if isinstance(v, ResearchActivity) else ResearchActivity(**as_dict(v)) for v in self.was_generated_by]
@@ -1405,7 +1438,40 @@ class NFDIDataset(Dataset):
 
 
 @dataclass(repr=False)
-class NMRDataset(NFDIDataset):
+class ChemicalAnalysisDataset(NFDIDataset):
+    """
+    A Dataset which is the output of a chemical analysis of a sample.
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = DCAT["Dataset"]
+    class_class_curie: ClassVar[str] = "dcat:Dataset"
+    class_name: ClassVar[str] = "ChemicalAnalysisDataset"
+    class_model_uri: ClassVar[URIRef] = NFDI4C.ChemicalAnalysisDataset
+
+    id: Union[str, ChemicalAnalysisDatasetId] = None
+    description: Union[str, List[str]] = None
+    title: Union[str, List[str]] = None
+    was_generated_by: Optional[Union[Union[dict, ChemicalAnalysis], List[Union[dict, ChemicalAnalysis]]]] = empty_list()
+    describes_entity: Optional[Union[Dict[Union[str, ChemicalSampleId], Union[dict, ChemicalSample]], List[Union[dict, ChemicalSample]]]] = empty_dict()
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, ChemicalAnalysisDatasetId):
+            self.id = ChemicalAnalysisDatasetId(self.id)
+
+        if not isinstance(self.was_generated_by, list):
+            self.was_generated_by = [self.was_generated_by] if self.was_generated_by is not None else []
+        self.was_generated_by = [v if isinstance(v, ChemicalAnalysis) else ChemicalAnalysis(**as_dict(v)) for v in self.was_generated_by]
+
+        self._normalize_inlined_as_list(slot_name="describes_entity", slot_type=ChemicalSample, key_name="id", keyed=True)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass(repr=False)
+class NMRDataset(ChemicalAnalysisDataset):
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = DCAT["Dataset"]
@@ -1416,7 +1482,7 @@ class NMRDataset(NFDIDataset):
     id: Union[str, NMRDatasetId] = None
     description: Union[str, List[str]] = None
     title: Union[str, List[str]] = None
-    was_generated_by: Optional[Union[Union[dict, NMRSpectroscopy], List[Union[dict, NMRSpectroscopy]]]] = empty_list()
+    was_generated_by: Union[Union[dict, NMRSpectroscopy], List[Union[dict, NMRSpectroscopy]]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
@@ -1424,9 +1490,37 @@ class NMRDataset(NFDIDataset):
         if not isinstance(self.id, NMRDatasetId):
             self.id = NMRDatasetId(self.id)
 
+        if self._is_empty(self.was_generated_by):
+            self.MissingRequiredField("was_generated_by")
         if not isinstance(self.was_generated_by, list):
             self.was_generated_by = [self.was_generated_by] if self.was_generated_by is not None else []
         self.was_generated_by = [v if isinstance(v, NMRSpectroscopy) else NMRSpectroscopy(**as_dict(v)) for v in self.was_generated_by]
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass(repr=False)
+class MSDataset(NFDIDataset):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = DCAT["Dataset"]
+    class_class_curie: ClassVar[str] = "dcat:Dataset"
+    class_name: ClassVar[str] = "MSDataset"
+    class_model_uri: ClassVar[URIRef] = NFDI4C.MSDataset
+
+    id: Union[str, MSDatasetId] = None
+    description: Union[str, List[str]] = None
+    title: Union[str, List[str]] = None
+    was_generated_by: Optional[Union[dict, NMRSpectroscopy]] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, MSDatasetId):
+            self.id = MSDatasetId(self.id)
+
+        if self.was_generated_by is not None and not isinstance(self.was_generated_by, NMRSpectroscopy):
+            self.was_generated_by = NMRSpectroscopy(**as_dict(self.was_generated_by))
 
         super().__post_init__(**kwargs)
 
@@ -1620,6 +1714,18 @@ class Distribution(YAMLRoot):
         self.title = [v if isinstance(v, str) else str(v) for v in self.title]
 
         super().__post_init__(**kwargs)
+
+
+class Resource(YAMLRoot):
+    """
+    See [DCAT-AP specs:Resource](https://semiceu.github.io/DCAT-AP/releases/3.0.0/#Resource)
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = RDFS["Resource"]
+    class_class_curie: ClassVar[str] = "rdfs:Resource"
+    class_name: ClassVar[str] = "Resource"
+    class_model_uri: ClassVar[URIRef] = NFDI4C.Resource
 
 
 class SupportiveEntity(YAMLRoot):
@@ -2004,7 +2110,7 @@ class Relationship(SupportiveEntity):
     class_model_uri: ClassVar[URIRef] = NFDI4C.Relationship
 
     had_role: Union[Union[dict, "Role"], List[Union[dict, "Role"]]] = None
-    relation: Union[Union[dict, "Resource"], List[Union[dict, "Resource"]]] = None
+    relation: Union[Union[dict, Resource], List[Union[dict, Resource]]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.had_role):
@@ -2020,18 +2126,6 @@ class Relationship(SupportiveEntity):
         self.relation = [v if isinstance(v, Resource) else Resource(**as_dict(v)) for v in self.relation]
 
         super().__post_init__(**kwargs)
-
-
-class Resource(SupportiveEntity):
-    """
-    See [DCAT-AP specs:Resource](https://semiceu.github.io/DCAT-AP/releases/3.0.0/#Resource)
-    """
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = RDFS["Resource"]
-    class_class_curie: ClassVar[str] = "rdfs:Resource"
-    class_name: ClassVar[str] = "Resource"
-    class_model_uri: ClassVar[URIRef] = NFDI4C.Resource
 
 
 class RightsStatement(SupportiveEntity):
@@ -2099,6 +2193,23 @@ class NMRAssayEnum(EnumDefinitionImpl):
                 text="CHMO:0000595",
                 description="""Spectroscopy where the energy states of 13C nuclei placed in a static magnetic field are interrogated by inducing transitions between the states via radio frequency irradiation. Each experiment consists of a sequence of radio frequency pulses with delay periods in between them.""",
                 meaning=CHMO["0000595"]))
+
+class MSAssayEnum(EnumDefinitionImpl):
+    """
+    NMR types from the Chemical Methods Ontology
+    """
+    _defn = EnumDefinition(
+        name="MSAssayEnum",
+        description="NMR types from the Chemical Methods Ontology",
+    )
+
+    @classmethod
+    def _addvals(cls):
+        setattr(cls, "CHMO:0000497",
+            PermissibleValue(
+                text="CHMO:0000497",
+                description="""Spectroscopy where the energy states of 13C nuclei placed in a static magnetic field are interrogated by inducing transitions between the states via radio frequency irradiation. Each experiment consists of a sequence of radio frequency pulses with delay periods in between them.""",
+                meaning=CHMO["0000497"]))
 
 class QUDTQuantityKindEnum(EnumDefinitionImpl):
     """
@@ -2202,8 +2313,11 @@ class TopLevelMediaTypes(EnumDefinitionImpl):
 class slots:
     pass
 
-slots.has_role = Slot(uri=NFDI4C.has_role, name="has_role", curie=NFDI4C.curie('has_role'),
-                   model_uri=NFDI4C.has_role, domain=None, range=Optional[str])
+slots.composed_of = Slot(uri=DCTERMS.hasPart, name="composed_of", curie=DCTERMS.curie('hasPart'),
+                   model_uri=NFDI4C.composed_of, domain=None, range=Optional[Union[Dict[Union[str, ChemicalEntityId], Union[dict, ChemicalEntity]], List[Union[dict, ChemicalEntity]]]])
+
+slots.part_of = Slot(uri=BFO['0000050'], name="part_of", curie=BFO.curie('0000050'),
+                   model_uri=NFDI4C.part_of, domain=None, range=Optional[str])
 
 slots.id = Slot(uri=DCTERMS.identifier, name="id", curie=DCTERMS.curie('identifier'),
                    model_uri=NFDI4C.id, domain=None, range=URIRef)
@@ -2212,10 +2326,10 @@ slots.rdf_type = Slot(uri=RDF.type, name="rdf_type", curie=RDF.curie('type'),
                    model_uri=NFDI4C.rdf_type, domain=None, range=Optional[Union[dict, DefinedTerm]])
 
 slots.evaluated_entity = Slot(uri=PROV.used, name="evaluated_entity", curie=PROV.curie('used'),
-                   model_uri=NFDI4C.evaluated_entity, domain=None, range=Optional[Union[dict, EntityOfInterest]])
+                   model_uri=NFDI4C.evaluated_entity, domain=None, range=Optional[Union[Dict[Union[str, EntityOfInterestId], Union[dict, EntityOfInterest]], List[Union[dict, EntityOfInterest]]]])
 
 slots.evaluated_activity = Slot(uri=PROV.wasInformedBy, name="evaluated_activity", curie=PROV.curie('wasInformedBy'),
-                   model_uri=NFDI4C.evaluated_activity, domain=None, range=Optional[Union[dict, ActivityOfInterest]])
+                   model_uri=NFDI4C.evaluated_activity, domain=None, range=Optional[Union[Dict[Union[str, ActivityOfInterestId], Union[dict, ActivityOfInterest]], List[Union[dict, ActivityOfInterest]]]])
 
 slots.used_tool = Slot(uri=PROV.used, name="used_tool", curie=PROV.curie('used'),
                    model_uri=NFDI4C.used_tool, domain=None, range=Optional[Union[Union[dict, Tool], List[Union[dict, Tool]]]])
@@ -2234,6 +2348,15 @@ slots.has_quantitative_attribute = Slot(uri=DCTERMS.relation, name="has_quantita
 
 slots.value = Slot(uri=PROV.value, name="value", curie=PROV.curie('value'),
                    model_uri=NFDI4C.value, domain=None, range=Optional[str])
+
+slots.described_by = Slot(uri=DCTERMS.relation, name="described_by", curie=DCTERMS.curie('relation'),
+                   model_uri=NFDI4C.described_by, domain=None, range=Optional[Union[Dict[Union[str, NFDIDatasetId], Union[dict, NFDIDataset]], List[Union[dict, NFDIDataset]]]])
+
+slots.describes_entity = Slot(uri=DCTERMS.relation, name="describes_entity", curie=DCTERMS.curie('relation'),
+                   model_uri=NFDI4C.describes_entity, domain=None, range=Optional[Union[Dict[Union[str, EntityOfInterestId], Union[dict, EntityOfInterest]], List[Union[dict, EntityOfInterest]]]])
+
+slots.describes_activity = Slot(uri=DCTERMS.relation, name="describes_activity", curie=DCTERMS.curie('relation'),
+                   model_uri=NFDI4C.describes_activity, domain=None, range=Optional[Union[Dict[Union[str, ActivityOfInterestId], Union[dict, ActivityOfInterest]], List[Union[dict, ActivityOfInterest]]]])
 
 slots.access_URL = Slot(uri=DCAT.accessURL, name="access_URL", curie=DCAT.curie('accessURL'),
                    model_uri=NFDI4C.access_URL, domain=None, range=Optional[str])
@@ -2475,19 +2598,16 @@ slots.version_notes = Slot(uri=ADMS.versionNotes, name="version_notes", curie=AD
 slots.was_generated_by = Slot(uri=PROV.wasGeneratedBy, name="was_generated_by", curie=PROV.curie('wasGeneratedBy'),
                    model_uri=NFDI4C.was_generated_by, domain=None, range=Optional[str])
 
-slots.chemicalSubstance__composed_of = Slot(uri=NFDI4C.composed_of, name="chemicalSubstance__composed_of", curie=NFDI4C.curie('composed_of'),
-                   model_uri=NFDI4C.chemicalSubstance__composed_of, domain=None, range=Optional[Union[Union[dict, ChemicalEntity], List[Union[dict, ChemicalEntity]]]])
-
-slots.chemicalEntity__inchi = Slot(uri=NFDI4C.inchi, name="chemicalEntity__inchi", curie=NFDI4C.curie('inchi'),
+slots.chemicalEntity__inchi = Slot(uri=CHEMINF['000143'], name="chemicalEntity__inchi", curie=CHEMINF.curie('000143'),
                    model_uri=NFDI4C.chemicalEntity__inchi, domain=None, range=Optional[Union[dict, InChi]])
 
-slots.chemicalEntity__inchikey = Slot(uri=NFDI4C.inchikey, name="chemicalEntity__inchikey", curie=NFDI4C.curie('inchikey'),
+slots.chemicalEntity__inchikey = Slot(uri=CHEMINF['000143'], name="chemicalEntity__inchikey", curie=CHEMINF.curie('000143'),
                    model_uri=NFDI4C.chemicalEntity__inchikey, domain=None, range=Optional[Union[dict, InChIKey]])
 
-slots.chemicalEntity__smiles = Slot(uri=NFDI4C.smiles, name="chemicalEntity__smiles", curie=NFDI4C.curie('smiles'),
+slots.chemicalEntity__smiles = Slot(uri=CHEMINF['000143'], name="chemicalEntity__smiles", curie=CHEMINF.curie('000143'),
                    model_uri=NFDI4C.chemicalEntity__smiles, domain=None, range=Optional[Union[dict, SMILES]])
 
-slots.chemicalEntity__iupac_formula = Slot(uri=NFDI4C.iupac_formula, name="chemicalEntity__iupac_formula", curie=NFDI4C.curie('iupac_formula'),
+slots.chemicalEntity__iupac_formula = Slot(uri=CHEMINF['000143'], name="chemicalEntity__iupac_formula", curie=CHEMINF.curie('000143'),
                    model_uri=NFDI4C.chemicalEntity__iupac_formula, domain=None, range=Optional[Union[dict, IUPACChemicalFormula]])
 
 slots.definedTerm__from_CV = Slot(uri=SCHEMA.inDefinedTermSet, name="definedTerm__from_CV", curie=SCHEMA.curie('inDefinedTermSet'),
@@ -2499,14 +2619,32 @@ slots.quantitativeAttribute__has_quantity_type = Slot(uri=QUDT.hasQuantityKind, 
 slots.quantitativeAttribute__unit = Slot(uri=QUDT.unit, name="quantitativeAttribute__unit", curie=QUDT.curie('unit'),
                    model_uri=NFDI4C.quantitativeAttribute__unit, domain=None, range=Optional[Union[str, DefinedTermId]])
 
+slots.ChemicalAnalysisDataset_was_generated_by = Slot(uri=PROV.wasGeneratedBy, name="ChemicalAnalysisDataset_was_generated_by", curie=PROV.curie('wasGeneratedBy'),
+                   model_uri=NFDI4C.ChemicalAnalysisDataset_was_generated_by, domain=ChemicalAnalysisDataset, range=Optional[Union[Union[dict, ChemicalAnalysis], List[Union[dict, ChemicalAnalysis]]]])
+
+slots.ChemicalAnalysisDataset_describes_entity = Slot(uri=DCTERMS.relation, name="ChemicalAnalysisDataset_describes_entity", curie=DCTERMS.curie('relation'),
+                   model_uri=NFDI4C.ChemicalAnalysisDataset_describes_entity, domain=ChemicalAnalysisDataset, range=Optional[Union[Dict[Union[str, ChemicalSampleId], Union[dict, ChemicalSample]], List[Union[dict, ChemicalSample]]]])
+
 slots.NMRDataset_was_generated_by = Slot(uri=PROV.wasGeneratedBy, name="NMRDataset_was_generated_by", curie=PROV.curie('wasGeneratedBy'),
-                   model_uri=NFDI4C.NMRDataset_was_generated_by, domain=NMRDataset, range=Optional[Union[Union[dict, NMRSpectroscopy], List[Union[dict, NMRSpectroscopy]]]])
+                   model_uri=NFDI4C.NMRDataset_was_generated_by, domain=NMRDataset, range=Union[Union[dict, NMRSpectroscopy], List[Union[dict, NMRSpectroscopy]]])
+
+slots.MSDataset_was_generated_by = Slot(uri=PROV.wasGeneratedBy, name="MSDataset_was_generated_by", curie=PROV.curie('wasGeneratedBy'),
+                   model_uri=NFDI4C.MSDataset_was_generated_by, domain=MSDataset, range=Optional[Union[dict, NMRSpectroscopy]])
 
 slots.NMRSpectroscopy_evaluated_entity = Slot(uri=PROV.used, name="NMRSpectroscopy_evaluated_entity", curie=PROV.curie('used'),
-                   model_uri=NFDI4C.NMRSpectroscopy_evaluated_entity, domain=NMRSpectroscopy, range=Optional[Union[dict, ChemicalSample]])
+                   model_uri=NFDI4C.NMRSpectroscopy_evaluated_entity, domain=NMRSpectroscopy, range=Optional[Union[Dict[Union[str, ChemicalSampleId], Union[dict, ChemicalSample]], List[Union[dict, ChemicalSample]]]])
 
 slots.NMRSpectroscopy_rdf_type = Slot(uri=RDF.type, name="NMRSpectroscopy_rdf_type", curie=RDF.curie('type'),
                    model_uri=NFDI4C.NMRSpectroscopy_rdf_type, domain=NMRSpectroscopy, range=Optional[Union[dict, DefinedTerm]])
+
+slots.MSSpectroscopy_evaluated_entity = Slot(uri=PROV.used, name="MSSpectroscopy_evaluated_entity", curie=PROV.curie('used'),
+                   model_uri=NFDI4C.MSSpectroscopy_evaluated_entity, domain=MSSpectroscopy, range=Optional[Union[Dict[Union[str, ChemicalSampleId], Union[dict, ChemicalSample]], List[Union[dict, ChemicalSample]]]])
+
+slots.MSSpectroscopy_rdf_type = Slot(uri=RDF.type, name="MSSpectroscopy_rdf_type", curie=RDF.curie('type'),
+                   model_uri=NFDI4C.MSSpectroscopy_rdf_type, domain=MSSpectroscopy, range=Optional[Union[dict, DefinedTerm]])
+
+slots.ChemicalEntity_part_of = Slot(uri=BFO['0000050'], name="ChemicalEntity_part_of", curie=BFO.curie('0000050'),
+                   model_uri=NFDI4C.ChemicalEntity_part_of, domain=ChemicalEntity, range=Optional[Union[Dict[Union[str, ChemicalSampleId], Union[dict, ChemicalSample]], List[Union[dict, ChemicalSample]]]])
 
 slots.ClassifierMixin_type = Slot(uri=DCTERMS.type, name="ClassifierMixin_type", curie=DCTERMS.curie('type'),
                    model_uri=NFDI4C.ClassifierMixin_type, domain=None, range=Optional[Union[dict, "DefinedTerm"]])
@@ -2518,7 +2656,7 @@ slots.DefinedTerm_title = Slot(uri=SCHEMA.name, name="DefinedTerm_title", curie=
                    model_uri=NFDI4C.DefinedTerm_title, domain=DefinedTerm, range=Optional[str])
 
 slots.NFDIDataset_was_generated_by = Slot(uri=PROV.wasGeneratedBy, name="NFDIDataset_was_generated_by", curie=PROV.curie('wasGeneratedBy'),
-                   model_uri=NFDI4C.NFDIDataset_was_generated_by, domain=NFDIDataset, range=Union[Union[dict, ResearchActivity], List[Union[dict, ResearchActivity]]])
+                   model_uri=NFDI4C.NFDIDataset_was_generated_by, domain=NFDIDataset, range=Optional[Union[Union[dict, ResearchActivity], List[Union[dict, ResearchActivity]]]])
 
 slots.NFDICatalog_has_dataset = Slot(uri=DCAT.dataset, name="NFDICatalog_has_dataset", curie=DCAT.curie('dataset'),
                    model_uri=NFDI4C.NFDICatalog_has_dataset, domain=NFDICatalog, range=Optional[Union[str, NFDIDatasetId]])
@@ -2532,8 +2670,14 @@ slots.ResearchActivity_other_identifier = Slot(uri=ADMS.identifier, name="Resear
 slots.EntityOfInterest_other_identifier = Slot(uri=ADMS.identifier, name="EntityOfInterest_other_identifier", curie=ADMS.curie('identifier'),
                    model_uri=NFDI4C.EntityOfInterest_other_identifier, domain=EntityOfInterest, range=Optional[Union[Union[dict, "Identifier"], List[Union[dict, "Identifier"]]]])
 
+slots.EntityOfInterest_has_part = Slot(uri=DCTERMS.hasPart, name="EntityOfInterest_has_part", curie=DCTERMS.curie('hasPart'),
+                   model_uri=NFDI4C.EntityOfInterest_has_part, domain=EntityOfInterest, range=Optional[Union[Dict[Union[str, EntityOfInterestId], Union[dict, "EntityOfInterest"]], List[Union[dict, "EntityOfInterest"]]]])
+
 slots.ActivityOfInterest_other_identifier = Slot(uri=ADMS.identifier, name="ActivityOfInterest_other_identifier", curie=ADMS.curie('identifier'),
                    model_uri=NFDI4C.ActivityOfInterest_other_identifier, domain=ActivityOfInterest, range=Optional[Union[Union[dict, "Identifier"], List[Union[dict, "Identifier"]]]])
+
+slots.ActivityOfInterest_has_part = Slot(uri=DCTERMS.hasPart, name="ActivityOfInterest_has_part", curie=DCTERMS.curie('hasPart'),
+                   model_uri=NFDI4C.ActivityOfInterest_has_part, domain=ActivityOfInterest, range=Optional[Union[Dict[Union[str, ActivityOfInterestId], Union[dict, "ActivityOfInterest"]], List[Union[dict, "ActivityOfInterest"]]]])
 
 slots.Tool_has_part = Slot(uri=DCTERMS.hasPart, name="Tool_has_part", curie=DCTERMS.curie('hasPart'),
                    model_uri=NFDI4C.Tool_has_part, domain=Tool, range=Optional[Union[Union[dict, "Tool"], List[Union[dict, "Tool"]]]])
@@ -2941,4 +3085,4 @@ slots.Relationship_had_role = Slot(uri=DCAT.hadRole, name="Relationship_had_role
                    model_uri=NFDI4C.Relationship_had_role, domain=Relationship, range=Union[Union[dict, "Role"], List[Union[dict, "Role"]]])
 
 slots.Relationship_relation = Slot(uri=DCTERMS.relation, name="Relationship_relation", curie=DCTERMS.curie('relation'),
-                   model_uri=NFDI4C.Relationship_relation, domain=Relationship, range=Union[Union[dict, "Resource"], List[Union[dict, "Resource"]]])
+                   model_uri=NFDI4C.Relationship_relation, domain=Relationship, range=Union[Union[dict, Resource], List[Union[dict, Resource]]])
