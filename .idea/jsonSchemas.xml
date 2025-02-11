@@ -8,11 +8,12 @@
             <SchemaInfo>
               <option name="name" value="LinkML Metamodel" />
               <option name="relativePathToSchema" value="https://w3id.org/linkml/meta.schema.json" />
-              <option name="applicationDefined" value="true" />
               <option name="patterns">
                 <list>
                   <Item>
-                    <option name="path" value="src/dcat_4c_ap/schema/dcat_4nfdi_ap.yaml" />
+                    <option name="directory" value="true" />
+                    <option name="path" value="src/dcat_4c_ap/schema" />
+                    <option name="mappingKind" value="Directory" />
                   </Item>
                 </list>
               </option>
