@@ -98,19 +98,6 @@ classes:
     class_uri: prov:Entity
     description: A portion of matter of constant composition, composed of molecular entities of the same type or of different types that is being evaluated in a scientific process.
     slots:
-      - has_role
-    attributes:
-      composed_of: 
-        description: The slot to provide the chemical entities of which the chemical substance is composed of.
-        range: ChemicalEntity
-        multivalued: true
-        inlined_as_list: true
-        recommended: true
-        exact_mappings:
-          - BFO:0000051
-      #type:
-        #ifabsent: CHEBI:59999
-  
   ChemicalEntity:
     class_uri: CHEBI:23367
     description: Any constitutionally or isotopically distinct atom, molecule, ion, ion pair, radical, radical ion, complex, conformer etc., identifiable as a separately distinguishable entity.
@@ -187,8 +174,6 @@ classes:
     description: A structure descriptor that denotes a molecular structure as a graph and conforms to the SMILES format specification.
 
 slots:
-  has_role:
-    #slot_uri: RO:0000087
 
 enums:
   # This is a [dynamic LinkML Enum definition](https://linkml.io/linkml/schemas/enums.html#dynamic-enums) covering 

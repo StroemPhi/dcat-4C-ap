@@ -88,6 +88,7 @@ classes:
       A collection of data, published or curated by a single agent, and available for access or download in one or more representations.
     slots:
       - id
+      - describes_entity
     slot_usage:
       was_generated_by:
         range: ResearchActivity
@@ -365,7 +366,26 @@ slots:
   value:
     slot_uri: prov:value
     description: A slot to provide the literal value of an attribute.
-
+  described_by:
+    slot_uri: dcterms:relation
+    range: NFDIDataset
+    description: A slot to relate an EntityOfInterest to the Dataset that is about it.
+    multivalued: true
+    inlined_as_list: true
+  describes_entity:
+    slot_uri: dcterms:relation
+    is_a: related_resource
+    range: EntityOfInterest
+    description: A slot to relate a Dataset to the EntityOfInterest it is about.
+    multivalued: true
+    inlined_as_list: true
+  describes_activity:
+    slot_uri: dcterms:relation
+    is_a: related_resource
+    range: ActivityOfInterest
+    description: A slot to relate a Dataset to the ActivityOfInterest it is about.
+    multivalued: true
+    inlined_as_list: true
 
 enums:
   ## Dynamic enums (https://linkml.io/linkml/schemas/enums.html#dynamic-enums) should be used to constrain the range 
