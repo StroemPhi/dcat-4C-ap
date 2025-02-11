@@ -103,22 +103,22 @@ classes:
     description: Any constitutionally or isotopically distinct atom, molecule, ion, ion pair, radical, radical ion, complex, conformer etc., identifiable as a separately distinguishable entity.
     attributes: 
       inchi:
-        #slot_uri: CHEMINF:000143
+        slot_uri: CHEMINF:000143
         range: InChi
         inlined: true
         description: The slot to provide the InChi descriptor of a chemical substance.
       inchikey:
-        #slot_uri: CHEMINF:000143
+        slot_uri: CHEMINF:000143
         range: InChIKey
         inlined: true
         description: The slot to provide the InChiKey of a chemical substance.
       smiles:
-        #slot_uri: CHEMINF:000143
+        slot_uri: CHEMINF:000143
         range: SMILES
         inlined: true
         description: The slot to provide the canonical SMILES descriptor of a chemical substance.
       iupac_formula:
-        #slot_uri: CHEMINF:000143
+        slot_uri: CHEMINF:000143
         range: IUPACChemicalFormula
         inlined: true
         description: The slot to provide the IUPAC name of a chemical substance.
