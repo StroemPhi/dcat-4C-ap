@@ -15,18 +15,18 @@ was_generated_by:
       id: CHMO:0000595
       title: "13C nuclear magnetic resonance spectroscopy"
     evaluated_entity:
-      rdf_type:
-        id: CHEBI:59999
-        title: "Chemical Substance"
-      id: https://doi.org/10.14272/KVOIVNBYNQXCNY-BOCHJOTCSA-N.1
-      title: "CRS-37013"
-      other_identifier:
-        - notation: https://www.chemotion-repository.net/pid/37013
-      has_qualitative_attribute:
-        - rdf_type:
-            id: CHEMINF:000059
-            title: InChiKey
-          value: KVOIVNBYNQXCNY-BOCHJOTCSA-N
+      - rdf_type:
+          id: CHEBI:59999
+          title: "Chemical Substance"
+        id: https://doi.org/10.14272/KVOIVNBYNQXCNY-BOCHJOTCSA-N.1
+        title: "CRS-37013"
+        other_identifier:
+          - notation: https://www.chemotion-repository.net/pid/37013
+        has_qualitative_attribute:
+          - rdf_type:
+              id: CHEMINF:000059
+              title: InChiKey
+            value: KVOIVNBYNQXCNY-BOCHJOTCSA-N
     used_tool:
       - rdf_type:
           id: OBI:0000566
