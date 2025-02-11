@@ -392,9 +392,10 @@ slots:
 
 enums:
   ## Dynamic enums (https://linkml.io/linkml/schemas/enums.html#dynamic-enums) should be used to constrain the range 
-  ## of the type slot instead of using the default DefinedTerm as range.
+  ## of the rdf_type and type slot instead of using the default DefinedTerm as range.
   ## This will be done in profiles of this schema where we define ResearchActivity subclasses, e.g. NMRSpectroscopy.
   ## seeAlso: https://github.com/linkml/linkml-model/blob/main/tests/input/examples/schema_definition-enum_bindings-1.yaml
+       
   QUDTQuantityKindEnum:
     description: Possible kinds of quantifiable attribute types provided as QUDT QualityKind instances.
     implements:

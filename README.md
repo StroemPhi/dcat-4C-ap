@@ -60,23 +60,30 @@ Requirements:
       ```
     * Validate a NMR spectroscopy-specific DCAT-AP extension conform example
       ```
-      poetry run linkml validate src/data/examples/Dataset001_dcat_4c_ap_NMRDataset.yaml -s 
-      src/dcat_4c_ap/schema/dcat_4c_ap.yaml -C NMRDataset
+      poetry run linkml validate src/data/examples/Dataset001_dcat_4c_ap_NMRDataset.yaml -s src/dcat_4c_ap/schema/dcat_4c_ap.yaml -C NMRDataset
       ```
 
-* To convert the test datasets of each DCAT-AP profile into a TTL graph run:
-  * Convert original DCAT-AP conform example
-     ```
-    poetry run linkml-convert -t ttl src/data/examples/Dataset001_dcat_ap.yaml -s src/dcat_4C_ap/schema/dcat_4c_ap.yaml -P "_base=https://search.nfdi4chem.de/dataset/" -C Dataset
-    ```
-  * Convert domain agnostic DCAT-AP extension conform example
-    ```
-    poetry run linkml-convert -t ttl src/data/examples/Dataset001_dcat_4nfdi_ap.yaml -s src/dcat_4C_ap/schema/dcat_4c_ap.yaml -P "_base=https://search.nfdi4chem.de/dataset/" -C Dataset
-    ```
-  * Convert a NMR spectroscopy-specific DCAT-AP extension conform example
-    ```
-    poetry run linkml-convert -t ttl src/data/examples/Dataset001_dcat_4c_ap_NMRDataset.yaml -s src/dcat_4C_ap/schema/Dataset001_dcat_4c_ap.yaml -P "_base=https://search.nfdi4chem.de/dataset/" -C NMRDataset
-    ```
+  * To convert the test datasets of each DCAT-AP profile into a TTL graph run:
+    * Convert original DCAT-AP conform example
+       ```
+      poetry run linkml-convert -t ttl src/data/examples/Dataset001_dcat_ap.yaml -s src/dcat_4C_ap/schema/dcat_4c_ap.yaml -P "_base=https://search.nfdi4chem.de/dataset/" -C Dataset
+      ```
+    * Convert domain agnostic DCAT-AP extension conform example
+      ```
+      poetry run linkml-convert -t ttl src/data/examples/Dataset001_dcat_4nfdi_ap.yaml -s src/dcat_4C_ap/schema/dcat_4c_ap.yaml -P "_base=https://search.nfdi4chem.de/dataset/" -C NFDIDataset
+      ```
+    * Convert a NMR spectroscopy-specific DCAT-AP extension conform example
+      ```
+      poetry run linkml-convert -t ttl src/data/examples/Dataset001_dcat_4c_ap_NMRDataset.yaml -s src/dcat_4C_ap/schema/dcat_4c_ap.yaml -P "_base=https://search.nfdi4chem.de/dataset/" -C NMRDataset
+      ```
+    * Convert a ChemicalEntity DCAT-AP extension conform example
+      ```
+      poetry run linkml-convert -t ttl src/data/examples/Molecule001.yaml -s src/dcat_4C_ap/schema/dcat_4c_ap.yaml -P "_base=https://search.nfdi4chem.de/dataset/" -C ChemicalEntity
+      ```
+    * Convert a ChemicalSample DCAT-AP extension conform example
+      ```
+      poetry run linkml-convert -t ttl src/data/examples/Sample001.yaml -s src/dcat_4C_ap/schema/dcat_4c_ap.yaml -P "_base=https://search.nfdi4chem.de/dataset/" -C ChemicalSample
+      ```
 
 * Use the `make` command to generate project artefacts:
   * `make all`: make everything
