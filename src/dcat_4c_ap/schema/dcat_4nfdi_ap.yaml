@@ -154,11 +154,8 @@ classes:
       - has_part
     slot_usage:
       other_identifier:
-        name: other_identifier
         description: A secondary identifier of the EntityOfInterest
-        slot_uri: adms:identifier
         range: Identifier
-        required: false
         multivalued: true
         inlined_as_list: true
         
@@ -178,11 +175,8 @@ classes:
       - has_part
     slot_usage:
       other_identifier:
-        name: other_identifier
         description: A secondary identifier of the ActivityOfInterest
-        slot_uri: adms:identifier
         range: Identifier
-        required: false
         multivalued: true
         inlined_as_list: true
     
