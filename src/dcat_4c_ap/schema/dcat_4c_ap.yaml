@@ -136,9 +136,9 @@ classes:
     class_uri: RXNO:0000329
     description: An experimental procedure with the aim of producing a portion of a given compound or mixture.
   
-  ChemicalSubstance:
+  ChemicalSample:
     is_a: EntityOfInterest
-    class_uri: prov:Entity
+    class_uri: CHEBI:59999
     description: A portion of matter of constant composition, composed of molecular entities of the same type or of different types that is being evaluated in a scientific process.
     slots:
   ChemicalEntity:
@@ -166,10 +166,6 @@ classes:
         inlined: true
         description: The slot to provide the IUPAC name of a chemical substance.
   
-  ChemicalSample:
-    is_a: ChemicalSubstance
-    #class_uri: CHEBI:59999
-
   ##############
   # Tool Types #
   ##############
