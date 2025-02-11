@@ -91,7 +91,7 @@ classes:
     slot_usage:
       was_generated_by:
         range: ResearchActivity
-        required: true
+        recommended: true
         multivalued: true
         inlined_as_list: true
   
