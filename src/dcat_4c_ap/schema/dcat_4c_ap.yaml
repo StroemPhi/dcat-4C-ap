@@ -141,10 +141,23 @@ classes:
     class_uri: CHEBI:59999
     description: A portion of matter of constant composition, composed of molecular entities of the same type or of different types that is being evaluated in a scientific process.
     slots:
+      - composed_of
+
   ChemicalEntity:
+    is_a: EntityOfInterest
     class_uri: CHEBI:23367
     description: Any constitutionally or isotopically distinct atom, molecule, ion, ion pair, radical, radical ion, complex, conformer etc., identifiable as a separately distinguishable entity.
-    attributes: 
+    slots:
+      - part_of
+    slot_usage:
+      part_of:
+        range: ChemicalSample
+        slot_uri: BFO:0000050
+        description: The slot to relate a chemical entity with the samples that are composed of it.
+        multivalued: true
+        inlined_as_list: true
+        recommended: true
+    attributes:
       inchi:
         slot_uri: CHEMINF:000143
         range: InChi
@@ -213,6 +226,19 @@ classes:
     description: A structure descriptor that denotes a molecular structure as a graph and conforms to the SMILES format specification.
 
 slots:
+  composed_of:
+    is_a: has_part
+    slot_uri: dcterms:hasPart
+    range: ChemicalEntity
+    recommended: true
+    inlined: true
+    inlined_as_list: true
+    multivalued: true
+  part_of:
+    slot_uri: BFO:0000050
+    description: The slot to relate a part to its whole.
+    comments:
+      - Will have to be further constraint within the context of its owning class.
 
 enums:
   # This is a [dynamic LinkML Enum definition](https://linkml.io/linkml/schemas/enums.html#dynamic-enums) covering 
