@@ -89,6 +89,7 @@ classes:
     slots:
       - id
       - describes_entity
+      - describes_activity
     slot_usage:
       was_generated_by:
         range: ResearchActivity
@@ -153,6 +154,7 @@ classes:
       - has_qualitative_attribute
       - has_quantitative_attribute
       - has_part
+      - described_by
     slot_usage:
       other_identifier:
         description: A secondary identifier of the EntityOfInterest
@@ -177,6 +179,7 @@ classes:
       - has_qualitative_attribute
       - has_quantitative_attribute
       - has_part
+      - described_by
     slot_usage:
       other_identifier:
         description: A secondary identifier of the ActivityOfInterest
