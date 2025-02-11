@@ -54,12 +54,24 @@ classes:
 # Dataset Types #
 #################
   
+  ChemicalAnalysisDataset:
+    is_a: NFDIDataset
+    class_uri: dcat:Dataset
+    description: A Dataset which is the output of a chemical analysis of a sample.
+    slot_usage:
+      was_generated_by:
+        range: ChemicalAnalysis
+        multivalued: true
+        inlined_as_list: true
+      describes_entity:
+        range: ChemicalSample
   NMRDataset:
     class_uri: dcat:Dataset
-    is_a: NFDIDataset
+    is_a: ChemicalAnalysisDataset
     slot_usage: 
       was_generated_by:
         range: NMRSpectroscopy
+        required: true
         multivalued: true
         inlined_as_list: true
 
@@ -67,13 +79,21 @@ classes:
 # Research Activity Types #
 ###########################
   
-  NMRSpectroscopy:
+  ChemicalAnalysis:
     is_a: ResearchActivity
-    #class_uri: CHMO:0000613
+    class_uri: OBI:0000070
+    title: Chemical Analysis
+    description: An assay in which a chemical sample is being analysed according to some 
+  NMRSpectroscopy:
+    is_a: ChemicalAnalysis
+    class_uri: CHMO:0000613
+    title: pulsed nuclear magnetic resonance spectroscopy
     description: Spectroscopy where the energy states of spin-active nuclei placed in a static magnetic field are interrogated by inducing transitions between the states via radio frequency irradiation. Each experiment consists of a sequence of radio frequency pulses with delay periods in between them.
     slot_usage:
       evaluated_entity:
         range: ChemicalSample
+        multivalued: true
+        inlined_as_list: true
       rdf_type:
         description: The type of NMR Spectroscopy provided as CURIE of a subclass of CHMO:0000613.
         ## new binding feature is not yet implemented, see: https://github.com/linkml/linkml-model/releases/tag/v1.8.0
