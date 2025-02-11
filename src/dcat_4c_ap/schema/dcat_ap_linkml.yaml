@@ -1555,6 +1555,7 @@ classes:
   Distribution:
     name: Distribution
     description: See [DCAT-AP specs:Distribution](https://semiceu.github.io/DCAT-AP/releases/3.0.0/#Distribution)
+    is_a: SupportiveEntity
     abstract: false
     slots:
     - access_URL
@@ -1998,6 +1999,7 @@ classes:
   Resource:
     name: Resource
     description: See [DCAT-AP specs:Resource](https://semiceu.github.io/DCAT-AP/releases/3.0.0/#Resource)
+    is_a: SupportiveEntity
     abstract: false
     class_uri: rdfs:Resource
   RightsStatement:
