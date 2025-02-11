@@ -158,7 +158,10 @@ classes:
         range: Identifier
         multivalued: true
         inlined_as_list: true
-        
+      has_part:
+        range: EntityOfInterest
+        multivalued: true
+        inlined_as_list: true
   ActivityOfInterest:
     mixins:
       - ClassifierMixin
@@ -177,6 +180,10 @@ classes:
       other_identifier:
         description: A secondary identifier of the ActivityOfInterest
         range: Identifier
+        multivalued: true
+        inlined_as_list: true
+      has_part:
+        range: ActivityOfInterest
         multivalued: true
         inlined_as_list: true
     
