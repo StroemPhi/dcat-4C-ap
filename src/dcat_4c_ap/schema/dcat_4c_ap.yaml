@@ -74,6 +74,12 @@ classes:
         required: true
         multivalued: true
         inlined_as_list: true
+  MSDataset:
+    class_uri: dcat:Dataset
+    is_a: NFDIDataset
+    slot_usage:
+      was_generated_by:
+        range: NMRSpectroscopy
 
 ###########################
 # Research Activity Types #
@@ -103,6 +109,23 @@ classes:
             range: NMRAssayEnum
             obligation_level: RECOMMENDED
             description: NMR types from the Chemical Methods Ontology
+  MSSpectroscopy:
+    is_a: ChemicalAnalysis
+    title: mass spectrometry
+    class_uri: CHMO:0000470
+    description: Spectrometry where the sample is converted into gaseous ions which are characterised by their mass-to-charge ratio and relative abundance.
+    slot_usage:
+      evaluated_entity:
+        range: ChemicalSample
+      rdf_type:
+        description: The type of NMR Spectroscopy provided as CURIE of a subclass of CHMO:0000470.
+        ## new binding feature is not yet implemented, see: https://github.com/linkml/linkml-model/releases/tag/v1.8.0
+        ## current workaround: using NMRAssayEnum as range 
+        bindings:
+          - binds_value_of: id
+            range: MSAssayEnum
+            obligation_level: RECOMMENDED
+            description: Mass spectrometry types from the Chemical Methods Ontology
 
 ##############################
 # Entities of Interest Types #
@@ -218,3 +241,22 @@ enums:
           a sequence of radio frequency pulses with delay periods in between them.
         meaning: CHMO:0000595
         title: 13C nuclear magnetic resonance spectroscopy
+    
+  MSAssayEnum:
+    description: NMR types from the Chemical Methods Ontology
+    reachable_from:
+      source_ontology: bioregistry:chmo
+      source_nodes:
+        - CHMO:0000497   # gas chromatography-mass spectrometry
+      is_direct: false
+      relationship_types:
+        - rdfs:subClassOf
+    permissible_values:
+      CHMO:0000497:
+        text: CHMO:0000497
+        description: Spectroscopy where the energy states of 13C nuclei placed in
+          a static magnetic field are interrogated by inducing transitions between
+          the states via radio frequency irradiation. Each experiment consists of
+          a sequence of radio frequency pulses with delay periods in between them.
+        meaning: CHMO:0000497
+        title: gas chromatography-mass spectrometry
