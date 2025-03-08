@@ -7579,9 +7579,9 @@
   ],
   "metamodel_version": "1.7.0",
   "source_file": "dcat_4c_ap.yaml",
-  "source_file_date": "2025-03-05T13:28:00",
+  "source_file_date": "2025-03-08T18:23:43",
   "source_file_size": 9756,
-  "generation_date": "2025-03-05T13:33:52",
+  "generation_date": "2025-03-08T18:59:01",
   "@type": "SchemaDefinition",
   "@context": [
     "project/jsonld/dcat_4c_ap.context.jsonld",
