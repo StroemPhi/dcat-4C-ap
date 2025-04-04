@@ -1,17 +1,17 @@
 ---
-id: https://stroemphi.github.io/dcat-4C-ap/dcat_4c_ap
-name: dcat-4C-ap
-title: DCAT-4C-AP
+id: https://stroemphi.github.io/dcat-4C-ap/dcat_ap_plus_chemistry.yaml
+name: dcat-ap-plus-chemistry
+title: DCAT-AP-PLUS-CHEMISTRY
 description: |-
-  This is an extension of the DCAT Application Profile in LinkML. It is intended to be used by NFDI4Chem & NFDI4Cat as a core that can further be extended in profiles to provide domain specific metadata for a dataset.
+  An Extension of the DCAT Application Profile for Providing Links to Use-case Specific Context in Chemistry.
 license: CC-BY 4.0
 see_also:
   - https://StroemPhi.github.io/dcat-NFDI-ap
   - https://github.com/HendrikBorgelt/DCAT-ap_as_LinkML_template/blob/main/src/dcatlinkml/schema/dcatlinkml.yaml
   - https://gitlab.com/opensourcelab/scientificdata/scidats/-/blob/feature/linkml-schemata/schemata/metadata_model_scidats_dcat_ap.yaml?ref_type=heads
 prefixes:
-  nfdi4c: https://stroemphi.github.io/dcat-4C-ap/dcat_4c_ap/
-  nfdi: https://stroemphi.github.io/dcat-4C-ap/dcat_4nfdi_ap/
+  dcatap_plus_chemistry: https://stroemphi.github.io/dcat-4C-ap/dcat_4c_ap.yaml#
+  dcatap_plus: https://stroemphi.github.io/dcat-4C-ap/dcat_ap_plus.yaml#
   linkml: https://w3id.org/linkml/
   biolink: https://w3id.org/biolink/vocab/
   schema: http://schema.org/
@@ -42,17 +42,17 @@ prefixes:
   SIO: http://semanticscience.org/resource/SIO_
   doi: https://doi.org/
   NMR: "http://nmrML.org/nmrCV#NMR:"
-default_prefix: nfdi4c
+default_prefix: dcatap_plus_chemistry
 default_range: string
 imports:
   - linkml:types
-  - dcat_4nfdi_ap
+  - dcat_ap_plus
 
 classes:
 
-#################
-# Dataset Types #
-#################
+  #################
+  # Dataset Types #
+  #################
 
   NMRAnalysisDataset:
     class_uri: dcat:Dataset
@@ -68,9 +68,9 @@ classes:
     comments:
       - This class serves as an example for the way in which we want to build domain specific schema profiles. It will be outsourced to a more appropriate location in the future.
 
-################################
-# Data Creating Activity Types #
-################################
+  ################################
+  # Data Creating Activity Types #
+  ################################
 
   NMRSpectralAnalysis:
     is_a: DataAnalysis
@@ -101,9 +101,9 @@ classes:
     comments:
       - This class serves as an example for the way in which we want to build domain specific schema profiles. It will be outsourced to a more appropriate location in the future.
 
-##############################
-# Entities of Interest Types #
-##############################
+  ##############################
+  # Entities of Interest Types #
+  ##############################
 
   ChemicalReaction:
     is_a: EvaluatedActivity
@@ -125,7 +125,7 @@ classes:
         recommended: true
         exact_mappings:
           - BFO:0000051
-      #type:
+        #type:
         #ifabsent: CHEBI:59999
 
   ChemicalEntity:
@@ -207,7 +207,7 @@ classes:
 
 slots:
   has_role:
-    #slot_uri: RO:0000087
+  #slot_uri: RO:0000087
 
 enums:
   # This is a [dynamic LinkML Enum definition](https://linkml.io/linkml/schemas/enums.html#dynamic-enums) covering

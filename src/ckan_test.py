@@ -246,7 +246,7 @@ def graph_from_dataset(dataset_dict):
     #TODO: Instantiate the rest of the given dataset attributes, most importantly the measurement variables
 
     # Create an RDFLib graph using RDFLibDumper & SchemaView classes from the linkml package
-    g = RDFLibDumper().as_rdf_graph(dataset, schemaview=SchemaView("dcat_4c_ap/schema/dcat_4c_ap.yaml", merge_imports=True))
+    g = RDFLibDumper().as_rdf_graph(dataset, schemaview=SchemaView("dcat_4c_ap/schema/dcat_ap_plus_chemistry.yaml", merge_imports=True))
 
     print(g.serialize(format='ttl'))
 
